@@ -1,14 +1,11 @@
 import { Database } from './schema'; // this is the Database interface we defined earlier
 import { Pool } from 'pg';
 import { Kysely, PostgresDialect } from 'kysely';
+import { env } from '@/env';
 
 const dialect = new PostgresDialect({
   pool: new Pool({
-    database: 'setalip',
-    host: 'localhost',
-    user: 'setalip',
-    password: 'setalip',
-    port: 5435,
+    connectionString: env.DATABASE_URL,
     max: 10,
   }),
 });
