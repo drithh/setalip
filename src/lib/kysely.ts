@@ -10,8 +10,8 @@ import { Pool } from 'pg';
 const pool = new Pool();
 
 const adapter = new NodePostgresAdapter(pool, {
-  user: 'auth_user',
-  session: 'user_session',
+  user: 'auth_users',
+  session: 'user_sessions',
 });
 
 export const lucia = new Lucia(adapter, {
@@ -28,7 +28,9 @@ export const lucia = new Lucia(adapter, {
     return {};
   },
   getUserAttributes: (attributes) => {
-    return {};
+    return {
+      email: attributes.email,
+    };
   },
   sessionExpiresIn: new TimeSpan(2, 'w'), // 2 weeks
 });
@@ -42,7 +44,7 @@ declare module 'lucia' {
     UserId: number;
   }
   interface DatabaseSessionAttributes {}
-  interface DatabaseUserAttributes {}
+  interface DatabaseUserAttributes {
+    email: string;
+  }
 }
-
-const session = await lucia.createSession(0, {});

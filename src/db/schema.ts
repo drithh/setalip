@@ -8,11 +8,23 @@ import {
 } from 'kysely';
 
 export interface Database {
+  user: UserTable;
   auth_user: AuthUserTable;
   user_session: UserSessionTable;
 }
-export interface AuthUserTable {
+
+export interface UserTable {
   id: Generated<number>;
+  email: string;
+  hashed_password: string;
+}
+
+export type User = Selectable<UserTable>;
+export type NewUser = Insertable<UserTable>;
+export type UserUpdate = Updateable<UserTable>;
+
+export interface AuthUserTable {
+  id: number;
 }
 
 export type AuthUser = Selectable<AuthUserTable>;
